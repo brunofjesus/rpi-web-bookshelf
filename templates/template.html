@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Template Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <img src="/static/logo.svg" width="40" height="32" role="img"/>
+                <h1 class="navbar-brand" style="padding:0; margin-bottom: 0; margin-top: 0">Bookshelf</h1>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                {% for section in sections %}
+                    <li>
+                        {% if section.id == active_section.id %}
+                            <a href="?section={{ section.id }}" class="nav-link px-2 link-danger">{{ section.name }}</a>
+                        {% else %}
+                            <a href="?section={{ section.id }}" class="nav-link px-2 link-dark">{{ section.name }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- Item list -->
+    <div class="row mb-2">
+        {% for item in active_section.items %}
+            <div class="col-md-12 col-lg-6 border-bottom">
+                <div class="row g-0 overflow-hidden flex-md-row pt-3 pb-3 h-md-250 position-relative">
+                    <div class="col-auto d-block">
+                        <img src="{{ item.cover }}" width="133" height="176">
+                    </div>
+                    <div class="col pb-3 px-3 d-flex flex-column position-static">
+                        <h3 class="mb-1">{{ item.title }}</h3>
+                        <p class="card-text mb-auto">{{ item.desc }}</p>
+
+                        <div class="col-12 mt-1">
+                            <a href="{{ item.pdf }}" class="btn btn-sm btn-outline-danger">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+</html>
