@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rpi-web-bookshelf
+  labels:
+    app: rpi-web-bookshelf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rpi-web-bookshelf
+  template:
+    metadata:
+      labels:
+        app: rpi-web-bookshelf
+    spec:
+      containers:
+        - name: rpi-web-bookshelf
+          image: brunofjesus/rpi-web-bookshelf:0.0.1
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rpi-web-bookshelf
+spec:
+  selector:
+    app: rpi-web-bookshelf
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rpi-web-bookshelf
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  labels:
+    app: rpi-web-bookshelf
+spec:
+  #ingressClassName: default
+  rules:
+    - host: "bookshelf.brunojesus.pt"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rpi-web-bookshelf
+                port:
+                  name: http
+  tls:
+    - hosts:
+      - "bookshelf.brunojesus.pt"
+      secretName: "bookshelf.brunojesus.pt"
