@@ -20,9 +20,11 @@ class Parser(object):
         for element_section in root:
             name = element_section.find(config.SECTION_NAME).text.replace("_", "")
             url = element_section.find(config.SECTION_URL).text
-            result.append(
-                Section(element_section.tag, name, url, self.__parse_items(element_section))
-            )
+            items = element_section.find(config.SECTION_ITEM)
+            if items is not None:
+                result.append(
+                    Section(element_section.tag, name, url, self.__parse_items(element_section))
+                )
 
         return result
 
