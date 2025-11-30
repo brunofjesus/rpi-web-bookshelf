@@ -1,4 +1,8 @@
 # Raspberry Pi Web Bookshelf
+
+> [!WARNING]  
+> This repository has been archived, please use the new [raspberry-bookshelf](https://github.com/brunofjesus/raspberry-bookshelf)
+
 Raspberry Pi Bookshelf for the Web
 
 This project aims to get the Rasberry Pi Bookshelf available through a webpage.
